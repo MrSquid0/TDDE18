@@ -1,0 +1,78 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Lab_1",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Lab_1.1::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Lab_1.1-Debug-ea643a3d65e3ac818a12.json",
+					"name" : "Lab_1.1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Lab_1.2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Lab_1.2-Debug-e8fe6e2bbfa22b1d2e68.json",
+					"name" : "Lab_1.2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Lab_1.3::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Lab_1.3-Debug-a1cfbf28eed4009e6221.json",
+					"name" : "Lab_1.3",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1/cmake-build-debug",
+		"source" : "/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

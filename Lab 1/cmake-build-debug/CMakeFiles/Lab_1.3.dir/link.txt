@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Lab_1.3.dir/WordLength.cpp.o -o Lab_1.3 

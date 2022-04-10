@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1/InputAndOutput.cpp
+iostream
+-
+string
+-
+iomanip
+-
+

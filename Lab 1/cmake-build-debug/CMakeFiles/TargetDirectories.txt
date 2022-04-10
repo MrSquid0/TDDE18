@@ -1,0 +1,5 @@
+/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1/cmake-build-debug/CMakeFiles/Lab_1.1.dir
+/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1/cmake-build-debug/CMakeFiles/Lab_1.2.dir
+/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1/cmake-build-debug/CMakeFiles/Lab_1.3.dir
+/home/gonzalo/Escritorio/Linux/TDDE18/Lab 1/cmake-build-debug/CMakeFiles/edit_cache.dir
