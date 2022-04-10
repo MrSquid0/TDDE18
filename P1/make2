@@ -1,0 +1,20 @@
+# Fichero: make2
+# Ejemplo de fichero makefile con un destino simbólico llamado "all"
+
+all : bin/demo2
+
+bin/demo2 : obj/demo2.o obj/oper2.o
+	echo Creando el ejecutable bin/demo2...
+	g++ -o bin/demo2 obj/demo2.o obj/oper2.o
+    
+obj/demo2.o : src/demo2.cpp include/oper2.h
+	@echo Creando el modulo objeto obj/demo2.o...
+	@g++ -c -I./include -o obj/demo2.o src/demo2.cpp
+    
+obj/oper2.o : src/oper2.cpp include/oper2.h
+	@echo Creando el modulo objeto obj/oper2.o...
+	@g++ -c -I./include -o obj/oper2.o src/oper2.cpp
+
+clean :
+	@echo Borrando los ficheros .o del directorio obj...
+	rm obj/*.o

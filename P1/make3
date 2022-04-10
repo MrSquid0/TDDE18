@@ -1,0 +1,37 @@
+BIN = ./bin
+INCLUDE = ./include
+LIB = ./lib
+OBJ = ./obj
+SRC = ./src
+
+all : $(BIN)/demo3 backup clean
+
+$(BIN)/demo3 : $(OBJ)/demo3.o lib/liboper3.a
+	@echo Creando el ejecutable $(BIN)/demo3...
+	g++ -o $(BIN)/demo3 $(OBJ)/demo3.o -L./lib -loper3
+	
+$(OBJ)/demo3.o : $(SRC)/demo3.cpp $(INCLUDE)/adicion3.h
+	@echo Creando el modulo objeto $(OBJ)/demo3.o...
+	g++ -c -I./$(INCLUDE) -o $(OBJ)/demo3.o $(SRC)/demo3.cpp
+
+$(LIB)/liboper3.a : $(OBJ)/adicion3.o $(OBJ)/producto3.o
+	@echo Creando la biblioteca $(LIB)/liboper3.a
+	ar rvs $(LIB)/liboper3.a $(OBJ)/adicion3.o $(OBJ)/producto3.o
+	
+$(OBJ)/adicion3.o : $(SRC)/adicion3.cpp $(INCLUDE)/adicion3.h
+	@echo Creando el modulo objeto $(OBJ)/adicion3.o...
+	g++ -c -I./$(INCLUDE) -o $(OBJ)/adicion3.o $(SRC)/adicion3.cpp
+	
+$(OBJ)/producto3.o : $(SRC)/producto3.cpp $(INCLUDE)/producto3.h
+	@echo Creando el modulo objeto $(OBJ)/producto3.o...
+	g++ -c -I./$(INCLUDE) -o $(OBJ)/producto3.o $(SRC)/producto3.cpp
+
+clean :
+	@echo Borrando los ficheros .o del directorio $(OBJ)...
+	rm $(OBJ)*.o
+	
+backup : $(BIN)/demo3 $(LIB)/liboper3.a $(OBJ)/demo3.o $(OBJ)/adicion3.o $(OBJ)/producto3.o $(SRC)/demo3.cpp $(SRC)/adicion3.cpp $(SRC)/producto3.cpp $(INCLUDE)/adicion3.h $(INCLUDE)/producto3.h
+	@echo Creando el directorio para las copias de seguridad...
+	mkdir backup
+	@echo Realizando las copias de seguridad de los ejecutables...
+	cp $^ backup
