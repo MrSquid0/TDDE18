@@ -10,7 +10,7 @@ Time t5{24,34,42};
 Time t6{24,34,42};
 Time t7{15, 23, 48};
 
-TEST_CASE("All Tests") {
+TEST_CASE("All Testss") {
     SECTION ("Second 45 should be 46")
     {
         ++t0;

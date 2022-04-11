@@ -110,7 +110,7 @@ ostream& operator<<(ostream& os, Time time){
 }
 
 istream& operator>>(istream& in, Time time){
-    cout << "Write the hour: ";
+    cout << "Write the hours: ";
     cin >> time.hour;
     cout << "Write the minutes: ";
     cin >> time.min;

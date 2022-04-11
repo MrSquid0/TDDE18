@@ -176,7 +176,7 @@ bool is_am(Time time);
 std::string to_string(Time time, int clock);
 
 /**
- * Prints the time in a readable format
+ * Printss the time in a readable format
  * @param time
  * @return
  */
