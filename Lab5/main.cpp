@@ -82,7 +82,8 @@ void substitute (std::vector <std::string> &text,
                  std::string &oldWord, std::string &newWord){
     if (oldWord.empty()){
         std::cerr << "ERROR: Word not entered correctly. The format is: "
-                     "\"--substitute=[oldWord]+[newWord]\". No word has been replaced.\n";
+                     "\"--substitute=[oldWord]+[newWord]\". "
+                     "No word has been replaced.\n";
     } else {
         if (std::find(text.begin(), text.end(), oldWord) != text.end()) {
             std::replace(text.begin(), text.end(), oldWord, newWord);
@@ -93,7 +94,8 @@ void substitute (std::vector <std::string> &text,
         }
 
         if (newWord.empty()){
-            std::cerr << "ERROR: You must enter the word to be replaced. No word has been replaced.\n";
+            std::cerr << "ERROR: You must enter the word to be replaced. "
+                         "No word has been replaced.\n";
         }
     }
 }
