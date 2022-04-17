@@ -13,6 +13,10 @@ component::component(const std::string &name, const std::string &positiveName,
     this->negativePointer = nullptr;
 }
 
+std::string component::getName() const {
+    return name;
+}
+
 std::string component::getPositiveName() const {
     return positiveName;
 }
@@ -21,17 +25,13 @@ std::string component::getNegativeName() const {
     return negativeName;
 }
 
-std::string component::getComponentName() const {
-    return name;
-}
-
 double component::getVoltage() const {
     return std::abs(*positivePointer - *negativePointer);
 }
 
-void component::targetConnectionPoints(double &positive, double &negative) {
-    positivePointer = &positive;
-    negativePointer = &negative;
+void component::connectPoints(double &pos, double &negat) {
+    positivePointer = &pos;
+    negativePointer = &negat;
 }
 
 /********************************
@@ -52,7 +52,6 @@ void battery::simulationInSteps (const double &unitTimes)
     //and the connection point on the negative terminal to zero
     *positivePointer = voltage;
     *negativePointer = 0;
-
 }
 
 double battery::getCurrent()
@@ -87,7 +86,9 @@ void capacitor::simulationInSteps (const double& unitTimes) {
 double capacitor::getCurrent()
 {
     //Calculate the current with the formula
-    return capacitance * ( getVoltage() - std::abs(charge) );
+    double current = capacitance * ( getVoltage() - std::abs(charge) );
+
+    return current;
 }
 
 /********************************
@@ -115,5 +116,7 @@ void resistor::simulationInSteps (const double &unitTimes)
 double resistor::getCurrent()
 {
     //Calculate the current with the formula
-    return getVoltage() / resistance;
+    double current = getVoltage() / resistance;
+
+    return current;
 }

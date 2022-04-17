@@ -22,13 +22,13 @@ protected:
 public:
     component (const std::string &name, const std::string &positiveName,
                const std::string &negativeName);
+    std::string getName() const;
     std::string getPositiveName() const;
     std::string getNegativeName() const;
-    std::string getComponentName() const;
     double getVoltage() const;
-    virtual double getCurrent() = 0;
+    void connectPoints (double &pos, double &negat);
     virtual void simulationInSteps (const double &timeStep) = 0;
-    void targetConnectionPoints (double &positive, double &negative);
+    virtual double getCurrent() = 0;
 };
 
 /********************************
@@ -68,8 +68,8 @@ class resistor : public component
 {
     double resistance;
 public:
-    resistor (const std::string &name, const std::string &positive,
-              const std::string &negative, const double &resistance);
+    resistor (const std::string &name, const std::string &positiveName,
+              const std::string &negativeName, const double &resistance);
     void simulationInSteps (const double &unitTimes) override;
     double getCurrent() override;
 };

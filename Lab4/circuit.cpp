@@ -5,65 +5,54 @@
 circuit::circuit (const std::string &name)
 {
     this->name = name;
-    components = std::vector<component*>();
     connectionPoints = std::unordered_map<std::string, double>();
+    allComponents = std::vector<component*>();
 }
 
-void circuit::simulate (const int &iterations, const int &linesToPrint,
-                        const double &timeStep)
+void circuit::simulation (const int &iterations,
+                          const int &outputLines,
+                          const double &timeStep)
 {
-    printTableHeader();
-    int printCount = 0;
-    int printStep = iterations / linesToPrint;
-    for (int i = 0; i < iterations; i++)
+    for (component* component: allComponents)
     {
-        for (component* it: components)
+        std::cout << std::setw(13) << component->getName();
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < allComponents.size(); i++)
+    {
+        std::cout << std::setw(13) << "Volt  Curr";
+    }
+    std::cout << std::endl;
+
+    int linesPrintPerEach = iterations / outputLines;
+    int printCounter = linesPrintPerEach;
+    for (int i = 0; i <= iterations; i++)
+    {
+        for (component* component: allComponents)
         {
-            it->simulationInSteps(timeStep);
+            component->simulationInSteps(timeStep);
         }
-        if (i == printCount) {
-            printTableRow();
-            printCount += printStep;
+        if (i == printCounter) {
+            std::cout << std::setprecision(2) << std::fixed;
+            for (component* it: allComponents)
+            {
+                std::cout << std::setw(7) << it->getVoltage() << "  " << it->getCurrent();
+            }
+            std::cout << std::endl;
+            printCounter += linesPrintPerEach;
         }
     }
     std::cout << std::endl;
 }
 
-void circuit::addComponent (component* component)
+void circuit::newConnectionPoint (const std::string &point)
 {
-    component->targetConnectionPoints(connectionPoints[component->
-            getPositiveName()], connectionPoints[component->getNegativeName()]);
-    components.push_back(component);
+    connectionPoints[point] = 0.00;
 }
 
-void circuit::addConnectionPoint (const std::string &key)
+void circuit::newComponent (component* component)
 {
-    connectionPoints[key] = 0.0;
+    allComponents.emplace_back(component);
+    component->connectPoints(connectionPoints[component->getPositiveName()],
+                             connectionPoints[component->getNegativeName()]);
 }
-
-void circuit::printTableHeader () const
-{
-    for (component* it: components)
-    {
-        std::cout << std::setw(12) << it->getComponentName();
-    }
-    std::cout << std::endl;
-    for (int i = 0; i < components.size(); i++)
-    {
-        std::cout << std::setw(12) << "Volt  Curr";
-    }
-    std::cout << std::endl;
-}
-
-void circuit::printTableRow () const
-{
-    using std::cout;
-    using std::endl;
-    cout << std::setprecision(2) << std::fixed;
-    for (component* it: components)
-    {
-        cout << std::setw(6) << it->getVoltage() << "  " << it->getCurrent();
-    }
-    cout << endl;
-}
-

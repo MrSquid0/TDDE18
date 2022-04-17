@@ -72,12 +72,6 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 
 build cmake_object_order_depends_target_Lab4: phony || CMakeFiles/Lab4.dir
 
-build CMakeFiles/Lab4.dir/main.cpp.o: CXX_COMPILER__Lab4_Debug /home/gonzalo/Escritorio/Linux/TDDE18/Lab4/main.cpp || cmake_object_order_depends_target_Lab4
-  DEP_FILE = CMakeFiles/Lab4.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++14
-  OBJECT_DIR = CMakeFiles/Lab4.dir
-  OBJECT_FILE_DIR = CMakeFiles/Lab4.dir
-
 build CMakeFiles/Lab4.dir/circuit.cpp.o: CXX_COMPILER__Lab4_Debug /home/gonzalo/Escritorio/Linux/TDDE18/Lab4/circuit.cpp || cmake_object_order_depends_target_Lab4
   DEP_FILE = CMakeFiles/Lab4.dir/circuit.cpp.o.d
   FLAGS = -g -std=gnu++14
@@ -104,7 +98,7 @@ build CMakeFiles/Lab4.dir/simulation.cpp.o: CXX_COMPILER__Lab4_Debug /home/gonza
 #############################################
 # Link the executable Lab4
 
-build Lab4: CXX_EXECUTABLE_LINKER__Lab4_Debug CMakeFiles/Lab4.dir/main.cpp.o CMakeFiles/Lab4.dir/circuit.cpp.o CMakeFiles/Lab4.dir/component.cpp.o CMakeFiles/Lab4.dir/simulation.cpp.o
+build Lab4: CXX_EXECUTABLE_LINKER__Lab4_Debug CMakeFiles/Lab4.dir/circuit.cpp.o CMakeFiles/Lab4.dir/component.cpp.o CMakeFiles/Lab4.dir/simulation.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/Lab4.dir
   POST_BUILD = :

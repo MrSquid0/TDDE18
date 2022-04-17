@@ -3,4 +3,4 @@ project(Lab4)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Lab4 main.cpp circuit.cpp circuit.h component.cpp component.h simulation.cpp simulation.h)
+add_executable(Lab4 circuit.cpp circuit.h component.cpp component.h simulation.cpp simulation.h)

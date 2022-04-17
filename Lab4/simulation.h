@@ -6,9 +6,11 @@
 #define LAB4_SIMULATION_H
 
 
-class simulation {
-//Nothing to declare here
-};
+int numberOfArgumentsAllowed{5};
+int numberOfIterations;
+int numberOfLinesToPrint;
+double simulationInSteps;
+double voltage;
 
 
 #endif //LAB4_SIMULATION_H
