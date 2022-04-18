@@ -9,6 +9,18 @@ circuit::circuit (const std::string &name)
     allComponents = std::vector<component*>();
 }
 
+void circuit::newConnectionPoint (const std::string &point)
+{
+    connectionPoints[point] = 0.00;
+}
+
+void circuit::newComponent (component* component)
+{
+    allComponents.emplace_back(component);
+    component->connectPoints(connectionPoints[component->getPositiveName()],
+                             connectionPoints[component->getNegativeName()]);
+}
+
 void circuit::simulation (const int &iterations,
                           const int &outputLines,
                           const double &timeStep)
@@ -43,16 +55,4 @@ void circuit::simulation (const int &iterations,
         }
     }
     std::cout << std::endl;
-}
-
-void circuit::newConnectionPoint (const std::string &point)
-{
-    connectionPoints[point] = 0.00;
-}
-
-void circuit::newComponent (component* component)
-{
-    allComponents.emplace_back(component);
-    component->connectPoints(connectionPoints[component->getPositiveName()],
-                             connectionPoints[component->getNegativeName()]);
 }

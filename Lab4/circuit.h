@@ -12,10 +12,10 @@ class circuit
     std::vector<component*> allComponents;
 public:
     circuit (const std::string &name);
-    void simulation (const int &iterations, const int &outputLines,
-                     const double &timeStep);
     void newConnectionPoint (const std::string &point);
     void newComponent (component* component);
+    void simulation (const int &iterations, const int &outputLines,
+                     const double &timeStep);
 };
 
 
