@@ -1,7 +1,3 @@
-//
-// Created by gonzalo on 16/3/22.
-//
-
 #ifndef LAB4_COMPONENT_H
 #define LAB4_COMPONENT_H
 
