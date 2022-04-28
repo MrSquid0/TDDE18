@@ -2,6 +2,27 @@
 #include "catch.hpp"
 #include "../Time.h"
 
+#include <iostream>
+
+//DONE: Complementary work needed. You need to test all your functions
+//throughly. For example you need to test that t1 -1, t-- and --t all
+//work. For example both t-- and --t should change the value, but t +
+//1 should not.
+
+//DONE: Your tests for addition and substraction are insufficient, you
+//have to make sure that all overflows (seconds, minutes, hours) work
+//correctly.
+
+//DONE: You have to test that your boolean functions can return both
+//true and false. For example check both t1 < t2 and t2 < t1.
+
+//DONE: You have missed testing some of your functions.
+//COMMENT OF THE STUDENT: Due to there are some functions that are used
+//internally by other ones, I am not testing them directly. It is the
+//case of "printTime" which is used in "to_string" function, the
+//case of "formatTime" and output function which are used in other ones
+//such as "+" or "-" functions.
+
 Time t0{41,43,45};
 Time t2{41,43,45};
 Time t3{3,23,45};
@@ -9,8 +30,37 @@ Time t4{6,34,12};
 Time t5{24,34,42};
 Time t6{24,34,42};
 Time t7{15, 23, 48};
+Time t8{23, 59, 59};
+Time t9{0, 0, 0};
+Time t10{1,1,1};
+Time t12{19,12,56};
 
 TEST_CASE("All Tests") {
+    std::stringstream os;
+
+    SECTION ("Time 4 should not be changed ")
+    {
+        os << t4;
+        CHECK(os.str() == "06:34:12");
+        os.str("");
+        os << t4 + 1;
+        CHECK(os.str() == "06:34:13");
+    }
+
+    SECTION ("Time 4 should be changed")
+    {
+        os.str("");
+        t4++;
+        os << t4;
+        CHECK (os.str() == "06:34:13");
+    }
+    SECTION ("Time 4 should be changed")
+    {
+        os.str("");
+        ++t4;
+        os << t4;
+        CHECK (os.str() == "06:34:14");
+    }
     SECTION ("Second 45 should be 46")
     {
         ++t0;
@@ -21,6 +71,24 @@ TEST_CASE("All Tests") {
     {
         --t2;
         CHECK(t2.sec == 44);
+    }
+
+    SECTION ("Adding a second to time 8, it should be formatted "
+             "to 00:00:00")
+    {
+        ++t8;
+        CHECK (t8.hour == 0);
+        CHECK (t8.min == 0);
+        CHECK (t8.sec == 0);
+    }
+
+    SECTION ("Subtracting a second to time 9, it should be formatted "
+             "to 23:59:59")
+    {
+        --t9;
+        CHECK (t9.hour == 23);
+        CHECK (t9.min == 59);
+        CHECK (t9.sec == 59);
     }
 
     SECTION("Time 3 and time 4 should be not equal")
@@ -43,9 +111,14 @@ TEST_CASE("All Tests") {
         CHECK_FALSE(t5 != t6);
     }
 
+    SECTION ("Time 4 should be higher that time 3")
+    {
+        CHECK (t4 > t3);
+    }
+
     SECTION("Time 3 should be lower than time 4")
     {
-        CHECK_FALSE(t3 > t4);
+        CHECK(t3 < t4);
     }
 
     SECTION("Time 3 should neither be higher nor equal than time 4")
@@ -97,5 +170,24 @@ TEST_CASE("All Tests") {
     SECTION("Time '6:34:12' should be AM")
     {
         CHECK(is_am(t4));
+    }
+
+    SECTION ("Time 12 should be outputted properly")
+    {
+        os.str("");
+        os << t12;
+        CHECK (os.str() == "19:12:56");
+    }
+
+    SECTION ("Time 11 should have the proper inputted time")
+    {
+        Time t11{};
+        std::istringstream is("13 45 21");
+        std::cin.rdbuf(is.rdbuf());
+
+        std::cin >> t11;
+        os << t11;
+
+        CHECK ((os.str()) == "13:45:21");
     }
 }

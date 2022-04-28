@@ -1,4 +1,36 @@
+#ifndef TIME_H
+#define TIME_H
+
 #include <string>
+
+//DONE: You have to use header-guards in your .h-files to not cause
+//problems for the programs including your functions.
+
+//DONE: Use const & for parameters of class type (for example time)
+//whenever passing them to a function where they should not be
+//changed, to avoid creating copies. If the value should be changed
+//use references.
+
+//DONE: Your + and - functions does not work as intended, they should
+//not just add the seconds, they have to make sure that minutes and
+//hours are increased if necessary.
+
+//DONE: The comparison operators all function in a very similar
+//way. To avoid code duplication you should implement them using the
+//ones you have already implemented. You should only implement a
+//maximum of 3 comparison operators, and the rest should be
+//implemented by calling the ones already implemented.
+
+//DONE: Your output operator does not always follow the correct
+//format, for example when the values are less than 10. Fix that.
+
+//DONE: Your input operator should read from the stream that you
+//passed in, and not only cin. You also have warnings from this
+//function that is relevant to the implementation.
+
+//DONE: There is too much code duplication in your printTime
+//function. Remove the similar code. Look at for example stringstreams
+//that can help you here and also in the testing program.
 
 /**
  * Struct called 'Time' defined sorted to organize and store each time
@@ -10,10 +42,15 @@ struct Time{
     int min{};
     int sec{};
 
+    //Constructor with parameters
     Time (int Hour, int Min, int Sec){
         hour = Hour;
         min = Min;
         sec = Sec;
+    }
+
+    //Constructor without parameters
+    Time (){
     }
 };
 
@@ -24,7 +61,7 @@ struct Time{
  * @param sec
  */
 
-void operator +(Time& time, int sec);
+std::string operator +(Time& time, int sec);
 
 /**
  * Operator - with the parameters below overloaded. What this operator
@@ -33,7 +70,7 @@ void operator +(Time& time, int sec);
  * @param sec
  */
 
-void operator -(Time& time, int sec);
+std::string operator -(Time& time, int sec);
 
 /**
  * Operator ++ with the parameters below overloaded. What this operator
@@ -51,7 +88,7 @@ Time& operator ++(Time& time);
   * @param int It does not mean nothing. It just to clarify that it is postfix.
  */
 
-Time operator ++(Time time, int);
+Time operator ++(Time& time, int);
 
 /**
  * Operator -- with the parameters below overloaded. What this operator
@@ -60,7 +97,7 @@ Time operator ++(Time time, int);
  * @param int It does not mean nothing. It just to clarify that it is postfix.
  */
 
-Time operator --(Time time, int);
+Time operator --(Time& time, int);
 
 /**
  * Operator -- with the parameters below overloaded. What this operator
@@ -77,7 +114,7 @@ Time& operator --(Time& time);
  * @return
  */
 
-bool operator ==(Time time1, Time time2);
+bool operator ==(Time const& time1, Time const& time2);
 
 /**
  * Operator != with the parameters below overloaded. What this operator
@@ -87,7 +124,7 @@ bool operator ==(Time time1, Time time2);
  * @return
  */
 
-bool operator != (Time time1, Time time2);
+bool operator != (Time const& time1, Time const& time2);
 
 /**
  * Operator > with the parameters below overloaded. What this operator
@@ -98,7 +135,7 @@ bool operator != (Time time1, Time time2);
  * @return
  */
 
-bool operator >(Time time1, Time time2);
+bool operator >(Time const& time1, Time const& time2);
 
 /**
  * Operator >= with the parameters below overloaded. What this operator
@@ -109,7 +146,7 @@ bool operator >(Time time1, Time time2);
  * @return
  */
 
-bool operator >=(Time time1, Time time2);
+bool operator >=(Time const& time1, Time const& time2);
 
 /**
  * Operator < with the parameters below overloaded. What this operator
@@ -120,7 +157,7 @@ bool operator >=(Time time1, Time time2);
  * @return
  */
 
-bool operator <(Time time1, Time time2);
+bool operator <(Time const& time1, Time const& time2);
 
 /**
  * Operator <= with the parameters below overloaded. What this operator
@@ -131,7 +168,7 @@ bool operator <(Time time1, Time time2);
  * @return
  */
 
-bool operator <=(Time time1, Time time2);
+bool operator <=(Time const& time1, Time const& time2);
 
 /**
  * Operator << with the parameters below overloaded. What this operator
@@ -141,7 +178,7 @@ bool operator <=(Time time1, Time time2);
  * @return
  */
 
-std::ostream& operator<<(std::ostream& os, Time time);
+std::ostream& operator<<(std::ostream& os, Time const& time);
 
 /**
  * Operator >> with the parameters below overloaded. What this operator
@@ -151,20 +188,20 @@ std::ostream& operator<<(std::ostream& os, Time time);
  * @return
  */
 
-std::istream& operator>>(std::istream& in, Time time);
+std::istream& operator>>(std::istream& in, Time& time);
 
 /**
  * Checks if time is valid or not.
  * @return true if it is valid and vice versa.
  */
-bool isValid(Time time);
+bool isValid(Time const& time);
 
 /**
  * Checks if the time is before or after noon (am or pm).
  * @return true in case of AM or false in case of PM.
  */
 
-bool is_am(Time time);
+bool is_am(Time const& time);
 
 /**
  * Converts time into a string in 12 or 24 format
@@ -173,7 +210,7 @@ bool is_am(Time time);
  * @return A string with time formatted
  */
 
-std::string to_string(Time time, int clock);
+std::string to_string(Time& time, int clock);
 
 /**
  * Prints the time in a readable format
@@ -181,4 +218,16 @@ std::string to_string(Time time, int clock);
  * @return
  */
 
-std::string printTime(Time time);
+std::string printTime(Time const& time);
+
+/**
+ * In case of adding / subtracting a second with functions "+"
+ * and "-", and these seconds affect to the minutes and/or
+ * hours, then time is formatted properly
+ * @param time
+ * @return
+ */
+
+Time formatTime (Time& time);
+
+#endif
