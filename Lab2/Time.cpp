@@ -4,20 +4,16 @@
 #include <fstream>
 #include <sstream>
 
-using namespace std;
-
-string operator +(Time& time, int sec){
-    Time timeChanged{time};
-    timeChanged.sec += sec;
-    formatTime(timeChanged);
-    return printTime(timeChanged);
+Time operator +(Time& time, int sec){
+    time.sec += sec;
+    formatTime(time);
+    return time;
 }
 
-string operator -(Time& time, int sec){
-    Time timeChanged{time};
-    timeChanged.sec -= sec;
-    formatTime(timeChanged);
-    return printTime(timeChanged);
+Time operator -(Time& time, int sec){
+    time.sec -= sec;
+    formatTime(time);
+    return time;
 }
 
 Time& operator ++(Time& time){
@@ -44,17 +40,15 @@ bool operator ==(Time const& time1, Time const& time2){
     if ((time1.hour == time2.hour) && (time1.min == time2.min) &&
         (time1.sec == time2.sec)) {
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool operator != (Time const& time1, Time const& time2){
     if (time1 == time2){
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 bool operator >(Time const& time1, Time const& time2){
@@ -72,9 +66,8 @@ bool operator >(Time const& time1, Time const& time2){
         } else {
             return false;
         }
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool operator >=(Time const& time1, Time const& time2){
@@ -82,29 +75,15 @@ bool operator >=(Time const& time1, Time const& time2){
         return true;
     } else if (time1 > time2){
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool operator <(Time const& time1, Time const& time2){
-    if (time1.hour < time2.hour) {
+    if (time2 > time1){
         return true;
-    } else if (time1.hour == time2.hour){
-        if (time1.min < time2.min){
-            return true;
-        } else if (time1.min == time2.min){
-            if (time1.sec < time2.sec){
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool operator <=(Time const& time1, Time const& time2){
@@ -112,23 +91,25 @@ bool operator <=(Time const& time1, Time const& time2){
         return true;
     } else if (time1 < time2){
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
-ostream& operator<<(ostream& os, Time const& time){
+std::ostream& operator<<(std::ostream& os, Time const& time){
     os << printTime(time);
 }
 
-istream& operator>>(istream& in, Time& time){
+std::istream& operator>>(std::istream& in, Time& time){
+    std::cout << "Enter the hour:" ;
     in >> time.hour;
+    std::cout << "\nEnter the minute:" ;
     in >> time.min;
+    std::cout << "\nEnter the second:" ;
     in >> time.sec;
     if(isValid(time)){
-        cin.setstate(ios_base::goodbit);
+        std::cin.setstate(std::ios_base::goodbit);
     } else {
-        cin.setstate(ios_base::failbit);
+        std::cin.setstate(std::ios_base::failbit);
     }
     return in;
 }
@@ -154,10 +135,10 @@ bool is_am(Time const& time) {
 }
 
 //Comment: Nice that you reuse printTime!
-string to_string(Time& time, int clock) {
-    string timeFormatted{};
+std::string to_string(Time& time, bool isTwelveClock) {
+    std::string timeFormatted{};
     if (isValid(time)) {
-        if (clock == 12){
+        if (isTwelveClock == true){
             if (time.hour >= 0 && time.hour <= 11) {
                 return printTime(time) + " am";
             } else {
@@ -170,10 +151,8 @@ string to_string(Time& time, int clock) {
                 }
                 return timeFormatted;
             }
-        } else if (clock == 24){
+        } else{
             return printTime(time);
-        } else {
-            return R"(Clock format invalid. Valid formats: "12" or "24".)";
         }
 
     } else {
@@ -181,47 +160,47 @@ string to_string(Time& time, int clock) {
     }
 }
 
-string printTime(Time const& time){
-    string timeFormatted{};
+std::string printTime(Time const& time){
+    std::string timeFormatted{};
     if ((time.hour == 0) || (time.hour >= 1 && time.hour <= 9)) {
         timeFormatted = "0";
     }
-    timeFormatted += to_string(time.hour) + ":";
+    timeFormatted += std::to_string(time.hour) + ":";
 
     if (time.min >= 0 && time.min <= 9) {
         timeFormatted += "0";
     }
-    timeFormatted += to_string(time.min) + ":";
+    timeFormatted += std::to_string(time.min) + ":";
 
     if (time.sec >= 0 && time.sec <= 9) {
         timeFormatted += "0";
     }
-    timeFormatted += to_string(time.sec);
+    timeFormatted += std::to_string(time.sec);
     return timeFormatted;
 }
 
 Time formatTime(Time& time) {
-        if (time.sec == 60){
-            time.sec = 0;
-            time.min++;
-            if (time.min == 60){
-                time.min = 0;
-                time.hour++;
-                if (time.hour == 24){
-                    time.hour = 0;
-                }
+    while(time.sec >= 60){
+        time.sec -= 60;
+        time.min += 1;
+        while(time.min >= 60){
+            time.min -= 60;
+            time.hour += 1;
+            if(time.hour >= 24){
+                time.hour -= 24;
             }
         }
-        else if (time.sec == -1)
-        {
-            time.sec = 59;
-            time.min--;
-            if (time.min == -1){
-                time.min = 59;
-                time.hour--;
-                if (time.hour == -1){
-                    time.hour = 23;
-                }
+    }
+
+    while(time.sec < 0){
+        time.sec += 60;
+        time.min -= 1;
+        while(time.min < 0){
+            time.min += 60;
+            time.hour -= 1;
+            if(time.hour < 0){
+                time.hour += 24;
             }
         }
+    }
 }

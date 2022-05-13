@@ -2,26 +2,11 @@
 #include "catch.hpp"
 #include "../Time.h"
 
+// DONE: Testing of + and - are still insufficient. You only ever test
+// what happens when we add or subtract 1 second. What happens if we
+// add more (way more)? See comment in Time.h for more details.
+
 #include <iostream>
-
-//DONE: Complementary work needed. You need to test all your functions
-//throughly. For example you need to test that t1 -1, t-- and --t all
-//work. For example both t-- and --t should change the value, but t +
-//1 should not.
-
-//DONE: Your tests for addition and substraction are insufficient, you
-//have to make sure that all overflows (seconds, minutes, hours) work
-//correctly.
-
-//DONE: You have to test that your boolean functions can return both
-//true and false. For example check both t1 < t2 and t2 < t1.
-
-//DONE: You have missed testing some of your functions.
-//COMMENT OF THE STUDENT: Due to there are some functions that are used
-//internally by other ones, I am not testing them directly. It is the
-//case of "printTime" which is used in "to_string" function, the
-//case of "formatTime" and output function which are used in other ones
-//such as "+" or "-" functions.
 
 Time t0{41,43,45};
 Time t2{41,43,45};
@@ -38,28 +23,47 @@ Time t12{19,12,56};
 TEST_CASE("All Tests") {
     std::stringstream os;
 
-    SECTION ("Time 4 should not be changed ")
+    SECTION ("Time 3 should not be changed ")
+    {
+        os << t3;
+        CHECK(os.str() == "03:23:45");
+        os.str("");
+        os << t3 + 0;
+        CHECK(os.str() == "03:23:45");
+    }
+
+    SECTION ("Time 4 should not be changed adding a whole day in seconds")
     {
         os << t4;
         CHECK(os.str() == "06:34:12");
         os.str("");
-        os << t4 + 1;
-        CHECK(os.str() == "06:34:13");
+        os << t4 + 86400;
+        CHECK(os.str() == "06:34:12");
     }
 
-    SECTION ("Time 4 should be changed")
+    SECTION ("Time 4 should not be changed subtracting a whole day in seconds")
     {
-        os.str("");
-        t4++;
         os << t4;
-        CHECK (os.str() == "06:34:13");
+        CHECK(os.str() == "06:34:12");
+        os.str("");
+        os << t4 - 86400;
+        CHECK(os.str() == "06:34:12");
     }
-    SECTION ("Time 4 should be changed")
+    SECTION ("Time 4 should be changed adding 70 seconds")
     {
-        os.str("");
-        ++t4;
         os << t4;
-        CHECK (os.str() == "06:34:14");
+        CHECK(os.str() == "06:34:12");
+        os.str("");
+        os << t4 + 70;
+        CHECK(os.str() == "06:35:22");
+    }
+    SECTION ("Time 4 should be changed subtracting 90 seconds")
+    {
+        os << t4;
+        CHECK(os.str() == "06:35:22");
+        os.str("");
+        os << t4 - 90;
+        CHECK(os.str() == "06:33:52");
     }
     SECTION ("Second 45 should be 46")
     {

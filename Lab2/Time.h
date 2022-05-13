@@ -3,34 +3,40 @@
 
 #include <string>
 
-//DONE: You have to use header-guards in your .h-files to not cause
-//problems for the programs including your functions.
 
-//DONE: Use const & for parameters of class type (for example time)
-//whenever passing them to a function where they should not be
-//changed, to avoid creating copies. If the value should be changed
-//use references.
+// DONE: operator+ and operator- should produce a *new* Time
+// object. Not a std::string. They should also not modify the existing
+// time object, but instead (as mentioned before) produce a *new* Time
+// object.
 
-//DONE: Your + and - functions does not work as intended, they should
-//not just add the seconds, they have to make sure that minutes and
-//hours are increased if necessary.
+// DONE: The comparison operators contain a lot of code duplication.
+// Hint: a < b is the same thing as b > a. Can you use this somehow to
+// only implement *two* operators and then call those two in all other
+// comparisons?
 
-//DONE: The comparison operators all function in a very similar
-//way. To avoid code duplication you should implement them using the
-//ones you have already implemented. You should only implement a
-//maximum of 3 comparison operators, and the rest should be
-//implemented by calling the ones already implemented.
+// DONE: formatTime does not work in all circumstances. What happens
+// if we do this:
+//
+// t + 86400
+// or:
+// t - 86400
+//
+// i.e. what happens if we add a full day to a time? It should give
+// back the exact same time right? Note that this should work no
+// matter how many seconds we add to the clock. Even if we add a full
+// year worth of seconds it should still give us the correct time.
 
-//DONE: Your output operator does not always follow the correct
-//format, for example when the values are less than 10. Fix that.
+// Make sure to include these types of tests in your tests.
 
-//DONE: Your input operator should read from the stream that you
-//passed in, and not only cin. You also have warnings from this
-//function that is relevant to the implementation.
+// Comment: Strictly speaking you don't actually need the
+// constructors. Thanks to aggregate initialization of structs you get
+// the same behaviour if you just don't implement them.
 
-//DONE: There is too much code duplication in your printTime
-//function. Remove the similar code. Look at for example stringstreams
-//that can help you here and also in the testing program.
+// Comment: Why is the 'clock' parameter to to_string an int? There
+// are only two options, 12-hour or 24-hour clock. Do you know of a
+// data type that only allows for two values? This is helpful since
+// now the programmer can't use the function incorrectly (for example
+// by calling to_string(t, 17)).
 
 /**
  * Struct called 'Time' defined sorted to organize and store each time
@@ -41,7 +47,7 @@ struct Time{
     int hour{};
     int min{};
     int sec{};
-
+    
     //Constructor with parameters
     Time (int Hour, int Min, int Sec){
         hour = Hour;
@@ -61,7 +67,7 @@ struct Time{
  * @param sec
  */
 
-std::string operator +(Time& time, int sec);
+Time operator +(Time& time, int sec);
 
 /**
  * Operator - with the parameters below overloaded. What this operator
@@ -70,7 +76,7 @@ std::string operator +(Time& time, int sec);
  * @param sec
  */
 
-std::string operator -(Time& time, int sec);
+Time operator -(Time& time, int sec);
 
 /**
  * Operator ++ with the parameters below overloaded. What this operator
@@ -206,11 +212,11 @@ bool is_am(Time const& time);
 /**
  * Converts time into a string in 12 or 24 format
  * @param time
- * @param clock Can be "12" or "24" format
+ * @param isTwelveClock Can be 'true' in case of 12 clock or 'false' in case of 24 clock
  * @return A string with time formatted
  */
 
-std::string to_string(Time& time, int clock);
+std::string to_string(Time& time, bool isTwelveClock);
 
 /**
  * Prints the time in a readable format
