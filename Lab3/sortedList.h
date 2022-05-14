@@ -4,6 +4,13 @@
 #include <string>
 #include <iostream>
 
+// DONE: Functions that does not modify the list should be marked as
+// const.
+
+// DONE: Internal functions (functions that are just used for
+// implementations) should be private in the class (for example
+// deepCopy and move).
+
 class sortedList
 {
 public:
@@ -17,11 +24,9 @@ public:
     int at(int index) const; // returns the value stored at a specified index
     void remove(int index); // removes a node by index
     void insert (int value); // inserts a node in sorted order
-    std::string printList (); // prints the existing nodes
-    bool isEmpty(); // checks if a list is empty
-    int getSize(); //gets size of the list
-    void deepCopy(sortedList const& other); //performs a deep copy of the list
-    void move(sortedList& other);
+    std::string printList () const; // prints the existing nodes
+    bool isEmpty() const; // checks if a list is empty
+    int getSize() const; //gets size of the list
 
 private:
     struct Node
@@ -32,6 +37,8 @@ private:
 
     Node* first{};
     int size{};
+    void deepCopy(sortedList const& other); //performs a deep copy of the list
+    void move(sortedList& other);
 };
 
 #endif

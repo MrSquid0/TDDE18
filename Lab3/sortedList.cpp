@@ -3,11 +3,30 @@
 
 #include "sortedList.h"
 
+// DONE: Use the data member initialization list when initializing
+// data members in constructors. Example:
+
+// My_Class::My_Class(int x)
+//     : data_member { x }
+// {
+// }
+
+// Instead of:
+
+// My_Class::My_Class(int x)
+// {
+//     data_member = x;
+// }
+
+// This is the correct way to implement a constructor in C++.
+
+// TODO: At least one of insert, remove, at or printList must be
+// *recursive*. Right now all of them are iterative (using for-loops).
+
+
 sortedList::sortedList()
-{
-    first = nullptr;
-    int size = 0;
-} // constructor
+    : first{nullptr}, size{0}
+{} // constructor
 sortedList::~sortedList()
 {
     while(first != nullptr){
@@ -78,6 +97,11 @@ void sortedList::remove(int index)
             delete tmp;
             size--;
         }
+
+	// TODO: This case, and the else-case are exactly the same if
+	// you think about it (what does currentNode->next contain if
+	// currentNode is the last node?)
+	
         else if (index == size-1) //Case of removing last node
         {
             currentNode = first;
@@ -112,6 +136,12 @@ void sortedList::insert(int value) {
         Node* currentNode{first};
         Node* prevNode{nullptr};
         for (int i = 0; i < getSize(); i++) {
+
+
+	    // TODO: Calling at is not a good idea here. Why? Can you
+	    // access the value of the current node in some other
+	    // manner that doesn't require you to call at?
+	    
             if (this->at(i) >= value) {
                 if (i == 0) { //Case of adding a new first node
                     first = tmp;
@@ -124,6 +154,10 @@ void sortedList::insert(int value) {
                     size++;
                     break;
                 }
+
+	    // TODO: This case is the same as the case above, see if
+	    // you can merge these cases.
+		
             } else if (i == getSize() - 1) { //Case of adding a new last node
                 tmp->next = nullptr;
                 currentNode->next = tmp;
@@ -136,16 +170,15 @@ void sortedList::insert(int value) {
     }
 
 }// inserts a node in sorted order
-bool sortedList::isEmpty(){
-    if (size == 0)
-    {
-        return true;
-    } else
-    {
-        return false;
-    }
+bool sortedList::isEmpty() const{
+
+    // DONE: The expression 'size == 0' returns a bool value already,
+    // so using an if-statement is redundant. Instead do this:
+    // return size == 0;
+
+    return size == 0;
 } //checks if a list is empty
-std::string sortedList::printList(){
+std::string sortedList::printList() const{
     std::string print{};
 
     if (this->isEmpty()){
@@ -153,6 +186,16 @@ std::string sortedList::printList(){
     } else {
         for (int i=0; i<size; i++)
         {
+
+	    // TODO: This usage of the at function is not OK. Because
+	    // for every index the at-function has to start at the
+	    // beginning and loop to the correct index. This is too
+	    // much work.
+	    //
+	    // Instead you should just iterate over the nodes, this
+	    // way you don't have to start at the beginning every
+	    // time.
+	    
             if (i==size-1){ //Last iteration
                 print += std::to_string(at(i)) + " -> NULL.";
             } else {
@@ -162,12 +205,19 @@ std::string sortedList::printList(){
     }
     return print;
 } //prints the existing nodes
-int sortedList::getSize() {
+int sortedList::getSize() const{
     return size;
 } //gets size of the list
 void sortedList::deepCopy(sortedList const& other) {
-    for (int i=0; i<other.size; i++)
+    for (int i=0; i<other.getSize(); i++)
     {
+	// TODO: Calling insert (and at) here is too much work (just
+	// as with calling at in the TODO above). insert performs work
+	// to make sure that the value is inserted in sorted
+	// order. But the values in other is already sorted, so why do
+	// we perform all that extra work?  Instead you should just
+	// iterate over other and add each node at the end of "this",
+	// this way no extra work is performed.
         this->insert(other.at(i));
     }
 } //performs a deep copy of the list
