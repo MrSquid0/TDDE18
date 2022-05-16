@@ -11,6 +11,8 @@ catch.hpp
 /home/gonzalo/Escritorio/Linux/TDDE18/Lab2/Tests/catch.hpp
 ../Time.h
 /home/gonzalo/Escritorio/Linux/TDDE18/Lab2/Time.h
+iostream
+-
 
 /home/gonzalo/Escritorio/Linux/TDDE18/Lab2/Tests/catch.hpp
 TargetConditionals.h

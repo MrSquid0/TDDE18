@@ -38,7 +38,8 @@ private:
     Node* first{};
     int size{};
     void deepCopy(sortedList const& other); //performs a deep copy of the list
-    void move(sortedList& other);
+    void move(sortedList& other); // moves content from other to this object
+    std::string doPrintList (Node* currentNode, std::string currentPrint, int startPosition) const; //
 };
 
 #endif

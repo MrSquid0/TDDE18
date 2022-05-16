@@ -57,6 +57,7 @@ TEST_CASE( "Create an empty list" ) {
         CHECK(list.getSize() == 1);
     }
 
+    ////
     SECTION("insert and printList should work well")
     {
         REQUIRE(list.isEmpty());
@@ -64,7 +65,20 @@ TEST_CASE( "Create an empty list" ) {
         list.insert(6);
         list.insert(1);
         list.insert(8);
-        CHECK(list.printList() == "1 -> 3 -> 6 -> 8 -> NULL.");
+        list.insert(4);
+        CHECK(list.printList() == "[1 --> 3 --> 4 --> 6 --> 8 --> NULL]");
+    }
+
+    ////
+
+    SECTION("insert and printList should work well")
+    {
+        REQUIRE(list.isEmpty());
+        list.insert(3);
+        list.insert(6);
+        list.insert(1);
+        list.insert(8);
+        CHECK(list.printList() == "[1 --> 3 --> 6 --> 8 --> NULL]");
     }
 
     SECTION("insert, remove and printList should work well")
@@ -74,14 +88,14 @@ TEST_CASE( "Create an empty list" ) {
         list.insert(6);
         list.insert(1);
         list.insert(8);
-        CHECK(list.printList() == "1 -> 3 -> 6 -> 8 -> NULL.");
+        CHECK(list.printList() == "[1 --> 3 --> 6 --> 8 --> NULL]");
         list.remove(2); //Deleting number 6 (position 2)
-        CHECK(list.printList() == "1 -> 3 -> 8 -> NULL.");
+        CHECK(list.printList() == "[1 --> 3 --> 8 --> NULL]");
     }
 
     SECTION("printList should work well")
     {
-        CHECK ((list.printList()) == "NULL.");
+        CHECK ((list.printList()) == "[NULL]");
     }
 
     SECTION("Function 'at' should work as it is supposed")
@@ -112,7 +126,7 @@ TEST_CASE( "Create an empty list" ) {
         list.insert(7);
         list.insert(3);
         sortedList listTwo{list};
-        CHECK ((listTwo.printList()) == "3 -> 7 -> NULL.");
+        CHECK ((listTwo.printList()) == "[3 --> 7 --> NULL]");
     }
 
     SECTION("Copy assignment operator should work well")
@@ -121,19 +135,19 @@ TEST_CASE( "Create an empty list" ) {
         list.insert(5);
         sortedList listTwo {};
         listTwo = list;
-        CHECK ((listTwo.printList()) == "3 -> 5 -> NULL.");
+        CHECK ((listTwo.printList()) == "[3 --> 5 --> NULL]");
     }
 
     SECTION("Move constructor should work well")
     {
         sortedList listTwo{getList()};
-        CHECK ((listTwo.printList()) == "3 -> 5 -> NULL.");
+        CHECK ((listTwo.printList()) == "[3 --> 5 --> NULL]");
     }
 
     SECTION("Move assignment operator should work well")
     {
         sortedList listTwo {};
         listTwo = getList();
-        CHECK ((listTwo.printList()) == "3 -> 5 -> NULL.");
+        CHECK ((listTwo.printList()) == "[3 --> 5 --> NULL]");
     }
 }
