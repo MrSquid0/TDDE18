@@ -178,6 +178,24 @@ std::string sortedList::printList() const{
 
     return doPrintList(currentNode, currentPrint, position);
 } //prints the existing nodes
+std::string sortedList::doPrintList(Node* currentNode = nullptr, std::string currentPrint = "[", int position = 0) const{
+    if (position == getSize() - 1){
+        return currentPrint + std::to_string(currentNode->value) + " --> NULL]";
+    } else {
+        currentPrint += std::to_string(currentNode->value) + " --> ";
+        return doPrintList(currentNode->next, currentPrint, position + 1);
+    }
+}
+
+// DONE: This usage of the at function is not OK. Because
+// for every index the at-function has to start at the
+// beginning and loop to the correct index. This is too
+// much work.
+//
+// Instead you should just iterate over the nodes, this
+// way you don't have to start at the beginning every
+// time.
+
 int sortedList::getSize() const{
     return size;
 } //gets size of the list
