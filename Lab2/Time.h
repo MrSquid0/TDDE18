@@ -3,41 +3,6 @@
 
 #include <string>
 
-
-// DONE: operator+ and operator- should produce a *new* Time
-// object. Not a std::string. They should also not modify the existing
-// time object, but instead (as mentioned before) produce a *new* Time
-// object.
-
-// DONE: The comparison operators contain a lot of code duplication.
-// Hint: a < b is the same thing as b > a. Can you use this somehow to
-// only implement *two* operators and then call those two in all other
-// comparisons?
-
-// DONE: formatTime does not work in all circumstances. What happens
-// if we do this:
-//
-// t + 86400
-// or:
-// t - 86400
-//
-// i.e. what happens if we add a full day to a time? It should give
-// back the exact same time right? Note that this should work no
-// matter how many seconds we add to the clock. Even if we add a full
-// year worth of seconds it should still give us the correct time.
-
-// Make sure to include these types of tests in your tests.
-
-// Comment: Strictly speaking you don't actually need the
-// constructors. Thanks to aggregate initialization of structs you get
-// the same behaviour if you just don't implement them.
-
-// Comment: Why is the 'clock' parameter to to_string an int? There
-// are only two options, 12-hour or 24-hour clock. Do you know of a
-// data type that only allows for two values? This is helpful since
-// now the programmer can't use the function incorrectly (for example
-// by calling to_string(t, 17)).
-
 /**
  * Struct called 'Time' defined sorted to organize and store each time
  * in hours, minutes and seconds.

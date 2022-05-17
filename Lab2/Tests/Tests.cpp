@@ -2,10 +2,6 @@
 #include "catch.hpp"
 #include "../Time.h"
 
-// DONE: Testing of + and - are still insufficient. You only ever test
-// what happens when we add or subtract 1 second. What happens if we
-// add more (way more)? See comment in Time.h for more details.
-
 #include <iostream>
 
 Time t0{41,43,45};
