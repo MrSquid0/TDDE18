@@ -4,13 +4,6 @@
 #include <string>
 #include <iostream>
 
-// DONE: Functions that does not modify the list should be marked as
-// const.
-
-// DONE: Internal functions (functions that are just used for
-// implementations) should be private in the class (for example
-// deepCopy and move).
-
 class sortedList
 {
 public:

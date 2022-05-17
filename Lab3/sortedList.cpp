@@ -3,27 +3,6 @@
 
 #include "sortedList.h"
 
-// DONE: Use the data member initialization list when initializing
-// data members in constructors. Example:
-
-// My_Class::My_Class(int x)
-//     : data_member { x }
-// {
-// }
-
-// Instead of:
-
-// My_Class::My_Class(int x)
-// {
-//     data_member = x;
-// }
-
-// This is the correct way to implement a constructor in C++.
-
-// DONE: At least one of insert, remove, at or printList must be
-// *recursive*. Right now all of them are iterative (using for-loops).
-
-
 sortedList::sortedList()
     : first{nullptr}, size{0}
 {} // constructor
@@ -97,10 +76,6 @@ void sortedList::remove(int index)
             delete tmp;
             size--;
         }
-
-	// DONE: This case, and the else-case are exactly the same if
-	// you think about it (what does currentNode->next contain if
-	// currentNode is the last node?)
         else //Rest of cases
         {
             currentNode = first;
@@ -124,12 +99,6 @@ void sortedList::insert(int value) {
         Node* currentNode{first};
         Node* prevNode{nullptr};
         for (int i{0}; i < getSize(); i++) {
-
-
-	    // DONE: Calling at is not a good idea here. Why? Can you
-	    // access the value of the current node in some other
-	    // manner that doesn't require you to call at?
-
             if (currentNode->value >= value) { //Case of adding a new first node
                 if (i == 0) {
                     first = tmp;
@@ -140,10 +109,6 @@ void sortedList::insert(int value) {
                 tmp->next = currentNode;
                 size++;
                 break;
-
-                // DONE: This case is the same as the case above, see if
-                // you can merge these cases.
-
             } else {
                 if (i == getSize() - 1){
                     tmp->next = nullptr;
@@ -159,11 +124,6 @@ void sortedList::insert(int value) {
 
 }// inserts a node in sorted order
 bool sortedList::isEmpty() const{
-
-    // DONE: The expression 'size == 0' returns a bool value already,
-    // so using an if-statement is redundant. Instead do this:
-    // return size == 0;
-
     return size == 0;
 } //checks if a list is empty
 
@@ -187,15 +147,6 @@ std::string sortedList::doPrintList(Node* currentNode = nullptr, std::string cur
     }
 }
 
-// DONE: This usage of the at function is not OK. Because
-// for every index the at-function has to start at the
-// beginning and loop to the correct index. This is too
-// much work.
-//
-// Instead you should just iterate over the nodes, this
-// way you don't have to start at the beginning every
-// time.
-
 int sortedList::getSize() const{
     return size;
 } //gets size of the list
@@ -204,14 +155,6 @@ void sortedList::deepCopy(sortedList const& other) {
     Node* currentNode{other.first};
     for (int i{0}; i<other.size; i++)
     {
-	// DONE: Calling insert (and at) here is too much work (just
-	// as with calling at in the TO DO above). insert performs work
-	// to make sure that the value is inserted in sorted
-	// order. But the values in other is already sorted, so why do
-	// we perform all that extra work?  Instead you should just
-	// iterate over other and add each node at the end of "this",
-	// this way no extra work is performed.
-
         Node *tmp{new Node{currentNode->value}};
         if (i==0){
             first = tmp;
