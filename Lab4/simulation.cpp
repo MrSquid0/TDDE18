@@ -2,7 +2,6 @@
 #include <iostream>
 #include "circuit.h"
 #include "component.h"
-#include "simulation.h"
 
 int main(int argc, char *argv[]) {
     /*
@@ -13,34 +12,45 @@ int main(int argc, char *argv[]) {
     - Argument 4: the voltage value.
      */
 
+    // DONE: Don't use global variables. It is very unclear why these are
+    // available globally since they are only used as local variables in main.
+
+    int numberOfArgumentsAllowed{5};
+    int numberOfIterations;
+    int numberOfLinesToPrint;
+    double simulationInSteps;
+    double voltage;
+
     if (argc != numberOfArgumentsAllowed) {
         std::cerr << "ERROR: You entered an incorrect number of arguments!\n"
                   << "You gave " << argc << ", when it is required to input "
                   << numberOfArgumentsAllowed << " ones.\n";
-        return 0;
+	// DONE: If the program exited unsuccessfully it should return
+	// something that is non-zero
+        return 1;
     }
     try { numberOfIterations = std::stoi(argv[1]); }
     catch (...) {
         std::cout << "ERROR: Number of iterations "
                      "must be an integer!" << std::endl;
-        return 0;
+        return 1;
     }
     try { numberOfLinesToPrint = std::stoi(argv[2]); }
     catch (...) {
         std::cout << "ERROR: Number of lines to print "
                      "must be an integer!" << std::endl;
-        return 0;
+        return 1;
     }
     try { simulationInSteps = std::stod(argv[3]); }
     catch (...) {
         std::cout << "ERROR: Time units of simulation in steps "
                      "must be a double! " << std::endl;
-        return 0;
+        return 1;
     }
     try { voltage = std::stod(argv[4]); }
     catch (...) {
         std::cout << "ERROR: Voltage must be a double!" << std::endl;
-        return 0;
+        return 1;
     }
 
     {

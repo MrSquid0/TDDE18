@@ -5,7 +5,7 @@
 circuit::circuit (const std::string &name)
 {
     this->name = name;
-    connectionPoints = std::unordered_map<std::string, double>();
+    connectionPoints = std::map<std::string, double>();
     allComponents = std::vector<component*>();
 }
 

@@ -5,13 +5,16 @@
 ********************************/
 
 component::component(const std::string &name, const std::string &positiveName,
-                     const std::string &negativeName) {
-    this->name = name;
-    this->positiveName = positiveName;
-    this->negativeName = negativeName;
-    this->positivePointer = nullptr;
-    this->negativePointer = nullptr;
+                     const std::string &negativeName)
+                     : name{name}, positiveName{positiveName},
+                     negativeName{negativeName}, positivePointer{nullptr},
+                     negativePointer{nullptr}
+{
 }
+
+// DONE: Initialize data members in the data member initialization
+// list (i.e. with : after function header). This holds true for
+// *all* constructors.
 
 std::string component::getName() const {
     return name;
@@ -54,7 +57,7 @@ void battery::simulationInSteps (const double &unitTimes)
     *negativePointer = 0;
 }
 
-double battery::getCurrent()
+double battery::getCurrent() const
 {
     //The idealized battery has zero current
     return 0;
@@ -83,7 +86,7 @@ void capacitor::simulationInSteps (const double& unitTimes) {
     charge += chargesToBeStored;
 }
 
-double capacitor::getCurrent()
+double capacitor::getCurrent() const
 {
     //Calculate the current with the formula
     double current = capacitance * ( getVoltage() - std::abs(charge) );
@@ -113,7 +116,7 @@ void resistor::simulationInSteps (const double &unitTimes)
     *negativePointer += chargesToBeMoved;
 }
 
-double resistor::getCurrent()
+double resistor::getCurrent() const
 {
     //Calculate the current with the formula
     double current = getVoltage() / resistance;
