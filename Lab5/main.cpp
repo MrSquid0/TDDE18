@@ -6,27 +6,72 @@
 #include <iterator>
 #include <iomanip>
 #include <set>
+#include <map>
+
+// DONE: Never capture everything in a lambda (i.e. don't do
+// [&]). Please state in the capture of your lambda exactly what
+// variables you need access to. This increases readability, and
+// also reduces the risk of potential errors. Fix this for *all*
+// your lambdas.
+
+// DONE: Avoid using 'typedef' (this is C code).  use 'using' instead
+// for defining type aliases (this is safer and more powerful than
+// typedef).
 
 //Defined 'pairs' in order to be the code easier to see
-typedef std::pair<std::string, int> pairs;
+using pairs = std::pair<std::string, int>;
 
-//Function created to split two vectors according to the 'splitAt' string
-void split (std::string const &element, std::string const &splitAt,
-            std::vector<std::string> &v1, std::vector<std::string> &v2) {
+void sortOcurrances(std::vector<std::string> const &text,
+                    std::vector<pairs> &textWithFrequenciesSorted,
+                    char frequencyOrTable){ // 'f' if sorting by frequency
+                                            // 't' if sorting by table
+    std::map<std::string, int> textWithFrequencies;
 
-    int characterFound = element.find(splitAt);
-    if (characterFound != std::string::npos){ //If found
-        v1.emplace_back(element.substr(0, characterFound));
-        v2.emplace_back(element.substr(characterFound + 1, element.size()));
-    } else{
-         if (splitAt == "="){
-            v1.emplace_back(element);
-            v2.emplace_back("");
-         }
-        if (splitAt == "+"){
-            v1.emplace_back(element);
-            v2.emplace_back("");
+    //Insert words from text into a map container
+    std::for_each(text.begin(), text.end(), [&](const auto word){
+        auto wordRepeated = std::find_if(textWithFrequencies.begin(),
+                                         textWithFrequencies.end(),
+                                         [&](const auto &wordInMap) {
+                                             return wordInMap.first == word;
+                                         });
+
+        if (wordRepeated != textWithFrequencies.end()){
+            wordRepeated->second++;
+        } else {
+            textWithFrequencies.insert({word, 1});
         }
+    });
+
+    //Copy all values (key and value) into a vector
+    std::transform (textWithFrequencies.begin(), textWithFrequencies.end(),
+                    back_inserter(textWithFrequenciesSorted),
+                    [] (std::pair<std::string, int> const & pair)
+                    {
+                        return pair;
+                    });
+
+    auto sortByFrequency = [](const pairs &l, const pairs &r) {
+        if (l.second != r.second) {
+            return l.second > r.second;
+        }
+        return l.first < r.first;
+    };
+
+    auto sortByTable = [](const pairs &l, const pairs &r) {
+        if (l.first != r.first) {
+            return l.first < r.first;
+        }
+        return l.second < r.second;
+    };
+
+    if (frequencyOrTable == 'f'){
+        //sort the pair vector according to its second value
+        std::sort(textWithFrequenciesSorted.begin(),
+                  textWithFrequenciesSorted.end(), sortByFrequency);
+    } else {
+        //sort the pair vector according to its first value
+        std::sort(textWithFrequenciesSorted.begin(),
+                  textWithFrequenciesSorted.end(), sortByTable);
     }
 }
 
@@ -36,50 +81,44 @@ void print (std::vector<std::string> const &text){
     std::cout << std::endl;
 }
 
-void frequency (std::vector<std::string> &text) {
-    std::vector<pairs> textWithNumbers;
+void frequency (std::vector<std::string> const &text) {
+    // DONE: This code is way more complicated than it needs to be.
+    // Is there a way to more easily do this with a better choice of
+    // container? I.e. instead of a std::vector<pairs>, can we for
+    // example use std::map to simplify this? Split this function into
+    // two "parts". First we need to calculate all the frequencies
+    // (use std::map for this), and then we have to copy the content
+    // of the map into a container that we can sort based on the
+    // number of occurances.
 
-    for_each(text.begin(), text.end(), [&](std::string &pos) {
-        auto found = std::find_if(textWithNumbers.begin(), textWithNumbers.end(),
-                                  [&](const auto &pair) { return pair.first == pos; });
-        if (found == textWithNumbers.end()) {
-            textWithNumbers.emplace_back(pos, 1);
-        } else {
-            int size = found - textWithNumbers.begin();
-            textWithNumbers.at(size).second++;
-        }
-    });
+    std::vector<pairs> textWithFrequenciesSorted;
 
-    //sorting the pair vector according to its second value
-    std::sort(textWithNumbers.begin(), textWithNumbers.end(),
-              [](const pairs &l, const pairs &r) {
-                  if (l.second != r.second) {
-                      return l.second > r.second;
-                  }
-                  return l.first < r.first;
-              });
+    sortOcurrances(text, textWithFrequenciesSorted, 'f');
 
     // print the result
-    std::for_each(textWithNumbers.begin(),textWithNumbers.end(),
-                  [](const auto& p)
+    std::for_each(textWithFrequenciesSorted.begin(),
+                  textWithFrequenciesSorted.end(),[](const auto& p)
                   { std::cout << std::right << std::setw(15) << p.first <<
-                  std::setw(3) << p.second << std::endl; });
+                              std::setw(3) << p.second << std::endl; });
 }
 
+// DONE: This function is incorrect. It must also print the occurances
+// of each word. Try to reuse the std::map code from the 'frequency'
+// table (but do not copy it).
 void table (std::vector <std::string> const &text){
-    //using set because this container sorts the content in lexicographic order
-    std::set<std::string> textSorted;
+    std::vector<pairs> textWithFrequenciesSorted;
 
-    //insert the content of the vector into the set
-    copy(text.begin(), text.end(), std::inserter(textSorted, textSorted.begin()));
+    sortOcurrances(text, textWithFrequenciesSorted, 't');
 
-    //print the set
-    std::copy(textSorted.begin(),textSorted.end(),
-              std::ostream_iterator<std::string>(std::cout, "\n"));
+    // print the result
+    std::for_each(textWithFrequenciesSorted.begin(),
+                  textWithFrequenciesSorted.end(),[](const auto& p)
+                  { std::cout << std::left << std::setw(15) << p.first <<
+                              std::setw(3) << p.second << std::endl; });
 }
 
 void substitute (std::vector <std::string> &text,
-                 std::string &oldWord, std::string &newWord){
+                 std::string oldWord, std::string newWord){
     if (oldWord.empty()){
         std::cerr << "ERROR: Word not entered correctly. The format is: "
                      "\"--substitute=[oldWord]+[newWord]\". "
@@ -91,8 +130,9 @@ void substitute (std::vector <std::string> &text,
             std::cerr << "ERROR: The word '" << oldWord <<
                       "' does not exist in the file! "
                       "No word has been replaced.\n";
+            return;
         }
-
+	
         if (newWord.empty()){
             std::cerr << "ERROR: You must enter the word to be replaced. "
                          "No word has been replaced.\n";
@@ -100,7 +140,7 @@ void substitute (std::vector <std::string> &text,
     }
 }
 
-void remove (std::vector <std::string> &text, std::string &word){
+void remove (std::vector <std::string> &text, std::string word){
     auto wordFound = std::find(text.begin(), text.end(), word);
     if (wordFound != text.end()){
         text.erase( remove (text.begin(), text.end(), word), text.end() );
@@ -127,81 +167,78 @@ int main(int argc, char *argv[]){
     file.close();
 
     int minimumArguments{3};
-    try{
+
+    // DONE: Don't do control flow with exceptions. There is no reason
+    // to do this with exceptions when an ordinary if-statement is
+    // both simpler, faster and requires less code than this.
         if (argc < minimumArguments){
-            throw std::exception();
+            std::cerr << "ERROR: Not enough arguments!\n"
+                      << "You gave " << argc << ", when it is required "
+                                                "a minimum of " <<
+                                                minimumArguments << ".\n";
+            std::cerr << "The format is: ./main <file> --<flags> .\n" <<
+            "For example: ./main short.txt --print --frequency.\n";
+            return 1;
         }
-    } catch (const std::exception &e) {
-        std::cerr << "ERROR: Not enough arguments!\n"
-                  << "You gave " << argc << ", when it is required a minimum "
-                                            "of " << minimumArguments << ".\n";
-        return 1;
-    }
 
-    try{
+    // DONE: Same as above
         if (text.empty()){
-            throw std::exception();
+            std::cerr << "ERROR: The file '" << argv[1]
+                      << "' is empty or does not exist.\n";
+            return 1;
         }
-    } catch (std::exception &e){
-        std::cerr << "ERROR: The file '" << argv[1]
-                  << "' is empty or does not exist.\n";
-        return 1;
-    }
-
 
     //Saving all arguments except from 0 and 1
     std::vector<std::string> arguments( argv + 2, argv + argc );
 
-    std::vector<std::string> flag;
-    std::vector<std::string> parameter;
+    // DONE: There is no reason to have vectors for these.  If we (as
+    // the lab description implies) instead do the splitting step, and
+    // the flag evaluation (i.e. the execution of the commands) in the
+    // same std::for_each, then you will only need two containers in
+    // main: text and arguments. There is no real point in storing the
+    // previous flags and parameters since those have then already
+    // been executed. This also means that you only need one
+    // std::for_each call instead of three.
 
-    //Splitting the vector 'arguments' into 'flag' and 'parameter' vectors
-    for_each(arguments.begin(), arguments.end(), [&] (const std::string &arg) {
-            split(arg, "=", flag, parameter);
-    });
-
-    std::vector<std::string> oldStringSubstitute;
-    std::vector<std::string> newStringSubstitute;
-
-    auto currentFlagArg = flag.begin();
-
-    for_each(parameter.begin(), parameter.end(), [&] (const std::string &n){
-        if (*currentFlagArg == "--substitute" && n.empty()){
-            oldStringSubstitute.emplace_back("");
-            newStringSubstitute.emplace_back("");
-        } else if (*currentFlagArg == "--substitute"){
-            split(n, "+", oldStringSubstitute, newStringSubstitute);
-        }
-        currentFlagArg++;
-    });
-
-    auto itOldStringSubstitute = oldStringSubstitute.begin();
-    auto itNewStringSubstitute = newStringSubstitute.begin();
-
-    currentFlagArg = flag.begin();
-
-    auto listOfArguments = [&] (std::string &arg) {
-        if (arg == "--print"){
-            print(text);
-        } else if (arg == "--frequency"){
-            frequency(text);
-        } else if (arg == "--table"){
-            table(text);
-        } else if (arg == "--substitute"){
-            substitute(text, *itOldStringSubstitute, *itNewStringSubstitute);
-            itOldStringSubstitute++;
-            itNewStringSubstitute++;
-        } else if (arg == "--remove"){
-            auto itFlag = std::find(currentFlagArg, flag.end(), arg);
-            int positionOfFlag = std::distance(flag.begin(), itFlag);
-            remove (text, parameter.at(positionOfFlag));
+    std::for_each(arguments.begin(), arguments.end(),
+                  [&text] (const auto &arg){
+        if (arg.find("--") == 0){
+                      if (arg == "--print"){
+                          print(text);
+                      } else if (arg == "--frequency"){
+                          frequency(text);
+                      } else if (arg == "--table"){
+                          table(text);
+                      } else if (arg.find("--substitute") != std::string::npos){
+                          if (arg.find("=") == 12 && arg.find("+") != 13 &&
+                          arg.find("+") != std::string::npos){
+                              std::string oldWord = arg.substr(13,arg.find("+")-13);
+                              std::string newWord = arg.substr(arg.find("+")+1);
+                              substitute(text, oldWord, newWord);
+                          } else {
+                              substitute(text, "", "");
+                          }
+                      } else if ((arg.find("--remove") != std::string::npos)) {
+                            if (arg.find("=") == 8) {
+                                remove(text, arg.substr(arg.find("=") + 1));
+                            } else{
+                                remove(text, "");
+                            }
+                      } else{
+                          std::cerr << "ERROR: '" << arg << "' is an invalid "
+                          << "flag! No flag was applied.\n";
+                      }
         } else {
-            std::cerr << "ERROR: '" << arg << "' is an invalid argument! "
-                      << "It was ignored.\n";
+            std::cout << "ERROR: The flag must start with '--'."
+                         " The given started with '" <<
+                         arg.substr(0,2) << "'. No flag was applied.\n";
         }
-        currentFlagArg++;
-    };
+    });
 
-    //Reading and executing each flag with its parameter
-    for_each(flag.begin(), flag.end(), listOfArguments);
+    // DONE: Same thing as the comment above flag.
+
+    // DONE: This way of looping through the parameters makes sense,
+    // but it is a bit confusing since you need to capture the
+    // currentFlagArg as well. See comment above 'flag' to see how to
+    // do this in a more efficient and clearer way.
 }
