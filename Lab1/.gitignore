@@ -7,3 +7,6 @@
 cmake-build-debug
 .idea
 CMakeLists.txt
+InputAndOutput
+TaxTable
+WordLength

@@ -6,8 +6,9 @@ using namespace std;
 
 /*Comment: Complementary work NOT needed, your tax table prints 1 013 802 lines
            when inputting first price = 0, last price = 10000, stride = 0.01
-           tax = 0. Does that seem right? HINT: error in float numbers
-*/
+           tax = 0. Does that seem right? HINT: error in float numbers*/
+
+
 
 int main(){
     float const minPrice{0.0};
