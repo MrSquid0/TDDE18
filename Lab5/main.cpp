@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <iterator>
 #include <iomanip>
-#include <set>
 #include <map>
 
 // DONE: Never capture everything in a lambda (i.e. don't do
