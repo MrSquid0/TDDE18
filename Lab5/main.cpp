@@ -22,8 +22,8 @@ using pairs = std::pair<std::string, int>;
 
 void sortOcurrances(std::vector<std::string> const &text,
                     std::vector<pairs> &textWithFrequenciesSorted,
-                    char frequencyOrTable){ // 'f' if sorting by frequency
-                                            // 't' if sorting by table
+                    bool isFrequency){ // true if sorting by frequency
+                                            // false if sorting by table
     std::map<std::string, int> textWithFrequencies;
 
     //Insert words from text into a map container
@@ -63,7 +63,7 @@ void sortOcurrances(std::vector<std::string> const &text,
         return l.second < r.second;
     };
 
-    if (frequencyOrTable == 'f'){
+    if (isFrequency){
         //sort the pair vector according to its second value
         std::sort(textWithFrequenciesSorted.begin(),
                   textWithFrequenciesSorted.end(), sortByFrequency);
@@ -92,7 +92,7 @@ void frequency (std::vector<std::string> const &text) {
 
     std::vector<pairs> textWithFrequenciesSorted;
 
-    sortOcurrances(text, textWithFrequenciesSorted, 'f');
+    sortOcurrances(text, textWithFrequenciesSorted, true);
 
     // print the result
     std::for_each(textWithFrequenciesSorted.begin(),
@@ -107,7 +107,7 @@ void frequency (std::vector<std::string> const &text) {
 void table (std::vector <std::string> const &text){
     std::vector<pairs> textWithFrequenciesSorted;
 
-    sortOcurrances(text, textWithFrequenciesSorted, 't');
+    sortOcurrances(text, textWithFrequenciesSorted, false);
 
     // print the result
     std::for_each(textWithFrequenciesSorted.begin(),
