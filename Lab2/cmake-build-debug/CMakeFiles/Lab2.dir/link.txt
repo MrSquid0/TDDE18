@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/Lab2.dir/Time.cpp.o CMakeFiles/Lab2.dir/Tests/Tests.cpp.o -o Lab2 
