@@ -9,7 +9,7 @@ using namespace std;
 
 int main() {
 
-    ifstream text("/home/gonzalo/Escritorio/Linux/TDDE18/Lab1/Message");
+    ifstream text("/home/gonzalo/Escritorio/Linux/TDDE18/Lab1/message.txt");
     //ifstream text{"../empty.txt"}; //COMMENT: Oops, sorry about this!
 
     string contentOfFile{};
