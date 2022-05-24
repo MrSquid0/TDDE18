@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/Lab_1.2.dir/TaxTable.cpp.o -o Lab_1.2 
