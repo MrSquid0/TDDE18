@@ -1,16 +1,11 @@
 #include <iostream>
 #include <fstream>
 
-//DONE: Complementary work needed, your program only returns integers for
-//      average word length! HINT: Use static_cast<double> to get a float, see
-//      lecture one for reference.
-
 using namespace std;
 
 int main() {
 
-    ifstream text("/home/gonzalo/Escritorio/Linux/TDDE18/Lab1/message.txt");
-    //ifstream text{"../empty.txt"}; //COMMENT: Oops, sorry about this!
+    ifstream text(".../message.txt");
 
     string contentOfFile{};
     int numberOfWords{0};

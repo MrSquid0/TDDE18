@@ -1,8 +1,6 @@
 #include "Time.h"
 #include <string>
 #include <iostream>
-#include <fstream>
-#include <sstream>
 
 Time operator +(Time& time, int sec){
     time.sec += sec;

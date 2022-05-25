@@ -4,9 +4,6 @@
 
 using namespace std;
 
-//--FIXED-- COMMENT: Your program crashes after input 6 if you input more than one word.
-
-
 int main (){
 
     int integer{};
