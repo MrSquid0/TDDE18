@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Lab1.dir/inputAndOutput.cpp.o CMakeFiles/Lab1.dir/taxTable.cpp.o CMakeFiles/Lab1.dir/wordLength.cpp.o -o Lab1 

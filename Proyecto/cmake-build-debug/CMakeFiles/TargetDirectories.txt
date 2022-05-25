@@ -1,3 +1,0 @@
-/home/gonzalo/Escritorio/2º cuatri/mp/Proyecto/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/gonzalo/Escritorio/2º cuatri/mp/Proyecto/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/gonzalo/Escritorio/2º cuatri/mp/Proyecto/cmake-build-debug/CMakeFiles/Proyecto.dir
