@@ -7,16 +7,6 @@
 #include <iomanip>
 #include <map>
 
-// DONE: Never capture everything in a lambda (i.e. don't do
-// [&]). Please state in the capture of your lambda exactly what
-// variables you need access to. This increases readability, and
-// also reduces the risk of potential errors. Fix this for *all*
-// your lambdas.
-
-// DONE: Avoid using 'typedef' (this is C code).  use 'using' instead
-// for defining type aliases (this is safer and more powerful than
-// typedef).
-
 //Defined 'pairs' in order to be the code easier to see
 using pairs = std::pair<std::string, int>;
 
@@ -81,15 +71,6 @@ void print (std::vector<std::string> const &text){
 }
 
 void frequency (std::vector<std::string> const &text) {
-    // DONE: This code is way more complicated than it needs to be.
-    // Is there a way to more easily do this with a better choice of
-    // container? I.e. instead of a std::vector<pairs>, can we for
-    // example use std::map to simplify this? Split this function into
-    // two "parts". First we need to calculate all the frequencies
-    // (use std::map for this), and then we have to copy the content
-    // of the map into a container that we can sort based on the
-    // number of occurances.
-
     std::vector<pairs> textWithFrequenciesSorted;
 
     sortOcurrances(text, textWithFrequenciesSorted, true);
@@ -100,10 +81,6 @@ void frequency (std::vector<std::string> const &text) {
                   { std::cout << std::right << std::setw(15) << p.first <<
                               std::setw(3) << p.second << std::endl; });
 }
-
-// DONE: This function is incorrect. It must also print the occurances
-// of each word. Try to reuse the std::map code from the 'frequency'
-// table (but do not copy it).
 void table (std::vector <std::string> const &text){
     std::vector<pairs> textWithFrequenciesSorted;
 
@@ -166,10 +143,6 @@ int main(int argc, char *argv[]){
     file.close();
 
     int minimumArguments{3};
-
-    // DONE: Don't do control flow with exceptions. There is no reason
-    // to do this with exceptions when an ordinary if-statement is
-    // both simpler, faster and requires less code than this.
         if (argc < minimumArguments){
             std::cerr << "ERROR: Not enough arguments!\n"
                       << "You gave " << argc << ", when it is required "
@@ -179,8 +152,6 @@ int main(int argc, char *argv[]){
             "For example: ./main short.txt --print --frequency.\n";
             return 1;
         }
-
-    // DONE: Same as above
         if (text.empty()){
             std::cerr << "ERROR: The file '" << argv[1]
                       << "' is empty or does not exist.\n";
@@ -189,15 +160,6 @@ int main(int argc, char *argv[]){
 
     //Saving all arguments except from 0 and 1
     std::vector<std::string> arguments( argv + 2, argv + argc );
-
-    // DONE: There is no reason to have vectors for these.  If we (as
-    // the lab description implies) instead do the splitting step, and
-    // the flag evaluation (i.e. the execution of the commands) in the
-    // same std::for_each, then you will only need two containers in
-    // main: text and arguments. There is no real point in storing the
-    // previous flags and parameters since those have then already
-    // been executed. This also means that you only need one
-    // std::for_each call instead of three.
 
     std::for_each(arguments.begin(), arguments.end(),
                   [&text] (const auto &arg){
@@ -233,11 +195,4 @@ int main(int argc, char *argv[]){
                          arg.substr(0,2) << "'. No flag was applied.\n";
         }
     });
-
-    // DONE: Same thing as the comment above flag.
-
-    // DONE: This way of looping through the parameters makes sense,
-    // but it is a bit confusing since you need to capture the
-    // currentFlagArg as well. See comment above 'flag' to see how to
-    // do this in a more efficient and clearer way.
 }

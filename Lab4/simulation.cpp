@@ -12,9 +12,6 @@ int main(int argc, char *argv[]) {
     - Argument 4: the voltage value.
      */
 
-    // DONE: Don't use global variables. It is very unclear why these are
-    // available globally since they are only used as local variables in main.
-
     int numberOfArgumentsAllowed{5};
     int numberOfIterations;
     int numberOfLinesToPrint;
@@ -25,8 +22,6 @@ int main(int argc, char *argv[]) {
         std::cerr << "ERROR: You entered an incorrect number of arguments!\n"
                   << "You gave " << argc << ", when it is required to input "
                   << numberOfArgumentsAllowed << " ones.\n";
-	// DONE: If the program exited unsuccessfully it should return
-	// something that is non-zero
         return 1;
     }
     try { numberOfIterations = std::stoi(argv[1]); }

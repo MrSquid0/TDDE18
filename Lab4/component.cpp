@@ -12,10 +12,6 @@ component::component(const std::string &name, const std::string &positiveName,
 {
 }
 
-// DONE: Initialize data members in the data member initialization
-// list (i.e. with : after function header). This holds true for
-// *all* constructors.
-
 std::string component::getName() const {
     return name;
 }
