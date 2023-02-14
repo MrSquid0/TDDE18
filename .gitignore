@@ -1,4 +1,4 @@
-#Ignore .out files
+#Ignore .o files
 
 **/*.o
 
